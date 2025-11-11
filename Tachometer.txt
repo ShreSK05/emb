@@ -1,0 +1,36 @@
+Tachometer 
+
+ORG 0000H
+SJMP START
+
+ORG 0035H
+START:  MOV P0,#00H
+        SETB P3.4
+        MOV TMOD,#21H
+        MOV TH0,#00H
+        MOV TL0,#00H
+        SETB TR0
+        ACALL DELAY
+        CLR TR0
+        MOV A,TL0
+        MOV B,#05H
+        DIV AB
+        MOV P0,A
+        SJMP START
+
+ORG 0100H
+DELAY:  MOV R0,#60
+REPEAT0:
+        MOV R1,#20
+REPEAT1:
+        MOV TH1,#3CH
+        MOV TL1,#0BCH
+        SETB TR1
+LOOP1:  JNB TF1,LOOP1
+        CLR TR1
+        CLR TF1
+        DJNZ R1,REPEAT1
+        DJNZ R0,REPEAT0
+        RET
+
+END

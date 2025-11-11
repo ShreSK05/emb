@@ -1,0 +1,23 @@
+To generate 1 ms delay from tmod
+
+ORG 0000H
+    SJMP START        
+
+ORG 0030H
+START:
+	MOV P1,#000H
+AGAIN:	
+	CPL P1.0
+    MOV TMOD, #01H      
+    MOV TH0, #0D8H      
+    MOV TL0, #0F0H      
+    SETB TR0            
+
+WAIT_OVERFLOW:
+    JNB TF0, WAIT_OVERFLOW
+    CLR TR0            
+    CLR TF0
+    SJMP AGAIN 
+    END
+
+

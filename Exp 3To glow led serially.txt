@@ -1,0 +1,28 @@
+Exp 3:To glow led serially
+
+ORG 0000H
+    SJMP START
+
+ORG 0035H
+START:  
+    MOV P1,#00H
+    ACALL DELAY
+    MOV P1,#01H
+    ACALL DELAY
+    SJMP START
+
+DELAY:  
+    MOV R1,#255
+OUTER:  
+    MOV R2,#255
+MIDDLE: 
+    MOV R3,#255
+INNER:  
+    DJNZ R3,INNER
+    DJNZ R2,MIDDLE
+    DJNZ R1,OUTER
+    RET
+
+END
+
+

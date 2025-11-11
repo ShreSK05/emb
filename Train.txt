@@ -1,0 +1,33 @@
+Train
+
+
+ORG 0000H
+SJMP START
+
+ORG 0035H
+START:  SETB P3.4
+        MOV TMOD, #1EH
+        MOV TH1, #00H
+        MOV TL1, #00H
+        MOV TL0, #255
+        MOV R0, #00H
+        MOV TH0, #255
+        SETB TR0
+
+CHECK:  JNB TF0, CHECK
+        INC R0
+        CLR TF0
+        SETB TR1
+
+CHECK1: JNB TF0, CHECK1
+        INC R0
+        CLR TF0
+        CLR TR1
+        MOV R2, TH1
+        MOV R3, TL1
+        MOV A, R0
+        MOV B, #04H
+        DIV AB
+        JMP CHECK
+
+END
